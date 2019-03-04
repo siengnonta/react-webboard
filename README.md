@@ -1,3 +1,23 @@
+
+
+
+
+
+## ตอบคำถาม
+
+1. Project นี้เขียนด้วย React ซึ่งจะใช้ได้เฉพาะกับ Web เท่านั้น ถ้าต้องการให้เขียนครั้งเดี่ยวใช้ได้ทั้ง iOS, Android, Web แนะนำให้ใช้ React Native แล้วลง framework ช่วยครับ (https://github.com/necolas/react-native-web)
+
+2. แม้จะใช้ React Native แล้วลง fraamework เพิ่มเติมจากข้อแรก ก็ต้องแก้ config สำหรับ framework บางตัวแยกตาม platform อยู่ดีครับ เช่น ถ้าใช้ Firebase ก็ต้องโหลด config file มาใส่ใน Xcode, Android studio รวมทั้งไฟล์์ App.js สำหรับของเว็บด้วย ซึ่งค่อนข้างจะมีความซับซ้อนและถ้าต้องพัฒนาแอพทั้งหมดก็อาจจะต้องใช้เวลาทำความเข้าใจอย่างมากกครับ
+
+3. เรื่อง Authorization สามารถทำผ่าน Firebase ได้เลย รองรับทั้งการ register และ login รวมถึงรองรับการทำ permission อีกด้วย การตั้งค่าต่างๆนี้สามารถเข้าไปในส่วน Firebase rule ได้เลย (ณ ที่นี้ไม่ได้ทำส่วนนี้ให้ดูครับ)
+
+4. สามารถเพิ่มความปลอดภัยด้วยการใช้ https ได้ด้วยการพิมพ์คำสั่ง `HTTPS=true npm start` แทน `npm start`
+
+**Note: ผมแนะนำให้เลือกพัฒนาแค่ mobile platform ด้วย React Native ก่อนครับ จากนั้นค่อยเพิ่มในส่วนของเว็บตามมา จะทำให้ขึ้นโปรเจ็คได้เร็วมากกว่า
+
+##
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
