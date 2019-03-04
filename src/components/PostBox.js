@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import trim from 'trim';
+import _ from 'lodash';
 
 class PostBox extends Component {
   constructor(props){
@@ -9,11 +10,32 @@ class PostBox extends Component {
     this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.submit = this.submit.bind(this);
 
+    let app = this.props.db.database().ref('users');
+    app.on('value', snapshot => {
+      this.getData(snapshot.val());
+    });
+
     this.state = {
       author: '',
       body: '',
       title: '',
+      users: []
     };
+  }
+
+  getData(values) {
+    let usersVal = values;
+    let users = _(usersVal)
+                    .keys()
+                    .map(userKey => {
+                      let cloned = _.clone(usersVal[userKey]);
+                      cloned.key = userKey;
+                      return cloned;
+                    }).value();
+    this.setState({
+      author: users[0].name,
+      users: users
+    });
   }
 
   handleTitleChange(e) {
@@ -38,6 +60,14 @@ class PostBox extends Component {
   }
 
 render() {
+    let userNodes = this.state.users.map((user, index) => {
+      return (
+          <option key={index + "user-card"}>
+            {user.name}
+          </option>
+      )
+    });
+
     return (
       <div class="container">
       <form>
@@ -48,7 +78,7 @@ render() {
           value={this.state.title} />
         </div>
         <div class="form-group">
-          <label for="exampleFormControlTextarea1">Content</label>
+          <label>Content</label>
           <textarea
             class="form-control"
             rows="3"
@@ -57,16 +87,13 @@ render() {
           </textarea>
         </div>
         <div class="form-group">
-          <label for="exampleFormControlSelect2">Post as (author)</label>
+          <label>Post as (author)</label>
           <select
             class="form-control"
             onChange={this.handleAuthorChange}
+            onLoad={this.handleAuthorChange}
             value={this.state.author}>
-              <option>anonymous</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
+              {userNodes}
           </select>
         </div>
         <button class="btn btn-primary" onClick={this.submit}>Post</button>

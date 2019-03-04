@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, {Component} from 'react';
 
 class Header extends Component {
@@ -5,9 +6,7 @@ class Header extends Component {
     return (
       <nav className="navbar">
         <div className="navbar-brand">
-          <a className="navbar-item" href="">
-            {this.props.title}
-          </a>
+          <Link to="/">{this.props.title}</Link>
         </div>
       </nav>
     )

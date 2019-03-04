@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
+import Home from '../src/components/Home';
+import PostDetail from '../src/components/PostDetail';
 import firebase from 'firebase';
-import Header from '../src/components/Header';
-import PostList from '../src/components/PostList';
-import PostBox from '../src/components/PostBox';
-import Post from '../src/components/Post';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class App extends Component {
   constructor(props){super(props);var config = {
@@ -21,19 +19,12 @@ class App extends Component {
 
   render() {
     return (
-      <div class="container">
-      <Header title="Simple Firebase App" />
-      <div class="row">
-        <div class="offset-md-3 col-md-6">
-          <PostList db={firebase} />
+      <Router>
+        <div class="container">
+          <Route exact path="/" component={Home} />
+          <Route path="/post/:id" component={PostDetail} />
         </div>
-      </div>
-      <div class="row">
-        <div class="offset-md-3 col-md-6">
-          <PostBox db={firebase} />
-        </div>
-      </div>
-    </div>
+      </Router>
     );
   }
 }
