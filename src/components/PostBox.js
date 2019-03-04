@@ -4,52 +4,72 @@ import trim from 'trim';
 class PostBox extends Component {
   constructor(props){
     super(props);
-    this.onChange = this.onChange.bind(this);
-    this.onKeyup = this.onKeyup.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleBodyChange = this.handleBodyChange.bind(this);
+    this.handleAuthorChange = this.handleAuthorChange.bind(this);
+    this.submit = this.submit.bind(this);
+
     this.state = {
-      message: ''
+      author: '',
+      body: '',
+      title: '',
     };
   }
-  onChange(e){
-    this.setState({
-      message: e.target.value
+
+  handleTitleChange(e) {
+    this.setState({ title: e.target.value });
+  }
+
+  handleBodyChange(e) {
+    this.setState({ body: e.target.value });
+  }
+
+  handleAuthorChange(e) {
+    this.setState({ author: e.target.value });
+  }
+
+  submit(e) {
+    let dbCon = this.props.db.database().ref('posts');
+    dbCon.push().set({
+      body: trim(this.state.body),
+      author: this.state.author,
+      title: this.state.title
     });
   }
-  onKeyup(e){
-    if(e.keyCode === 13 && trim(e.target.value) !== ''){
-      e.preventDefault();
-      let dbCon = this.props.db.database().ref('/posts');
-      dbCon.push({
-        message: trim(e.target.value)
-      });
-      this.setState({
-        message: ''
-      });
-    }
-  }
+
 render() {
     return (
       <div class="container">
       <form>
         <div class="form-group">
-          <label for="exampleFormControlInput1">Title</label>
-          <input class="form-control" id="exampleFormControlInput1" />
+          <label>Title</label>
+          <input class="form-control"
+          onChange={this.handleTitleChange}
+          value={this.state.title} />
         </div>
         <div class="form-group">
           <label for="exampleFormControlTextarea1">Content</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea
+            class="form-control"
+            rows="3"
+            onChange={this.handleBodyChange}
+            value={this.state.body}>
+          </textarea>
         </div>
         <div class="form-group">
           <label for="exampleFormControlSelect2">Post as (author)</label>
-          <select class="form-control">
-            <option>anonymous</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select
+            class="form-control"
+            onChange={this.handleAuthorChange}
+            value={this.state.author}>
+              <option>anonymous</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary">Post</button>
+        <button class="btn btn-primary" onClick={this.submit}>Post</button>
       </form>
       </div>
     )
